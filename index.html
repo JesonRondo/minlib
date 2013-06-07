@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+    <div id="div1">
+        <ul class="ul1" id="ul1">
+            <li id="1">1</li>
+            <li id="3">3</li>
+            <li id="4-1">4</li>
+            <li id="-14">5</li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="js/minlib.js"></script>
+    <script type="text/javascript">
+        console.log(_('#3'));
+
+        var $3_style = _('#3').style;
+
+        var css = {
+            background: '#999',
+            color: '#fff',
+            textAlign: 'center'
+        }
+        _.extend($3_style, css);
+    </script>
+</body>
+</html>
