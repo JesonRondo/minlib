@@ -2,21 +2,34 @@
     var arr = [],
         splice = arr.splice,
 
-        idExpr = /^(?:#([\w-]+))$/,
+        rQuickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
         vlib = function(selector) {
             return new init(selector);
         },
 
         init = function(selector) {
-            var match, elem;
+            var match, elem, m;
 
             if (typeof selector === 'string') {
-                match = idExpr.exec(selector);
-                if (match && match[1]) {
-                    elem = document.getElementById(match[1]);
-                    if (elem) return elem;
-                }
+                match = rQuickExpr.exec(selector);
+                if (match) {
+                    if (m = match[1]) { // id
+                        elem = document.getElementById(m);
+                        if (elem) elem.length = 1;
+                        return elem ? elem : null;
+                    } else if (m = match[2]) { // tag
+                        elem = document.getElementsByTagName(m);
+                        return elem ? elem : null;
+                    } else if (m = match[3]) { // class
+                        elem = document.getElementsByClassName(m);
+                        return elem ? elem : null;
+                    }
+                } else {
+                    return null;
+                } 
+            } else {
+                return null;
             }
         };
 
@@ -27,29 +40,43 @@
 
     init.prototype = vlib.fn;
 
-    // extend
-    vlib.fn.extend = vlib.extend = function() {
-        var i = 1,
-            k,
-            obj,
-            target = arguments[0] || {},
-            len = arguments.length;
+    // load function
+    vlib.fn.load = vlib.load = function(modulename) {
+        try {
+            if (vlib.fn[modulename] !== undefined) // loaded
+                return;
 
-        if(len === 1) {
-            return arguments[0];
+            vlib.fn[modulename] = vlib[modulename] = module[modulename];
+        } catch(e) {
+
         }
+    };
 
-        for (; i < len; i++) {
-            obj = arguments[i];
-            if (typeof obj === 'object') {
-                for (k in obj) {
-                    target[k] = typeof target[k] === 'object' && typeof obj[k] === 'object' ?
-                        kss.extend(target[k], obj[k]) :
-                        obj[k];
+    // extend module
+    var module = {
+        extend: function() {
+            var i = 1,
+                k,
+                obj,
+                target = arguments[0] || {},
+                len = arguments.length;
+
+            if(len === 1) {
+                return arguments[0];
+            }
+
+            for (; i < len; i++) {
+                obj = arguments[i];
+                if (typeof obj === 'object') {
+                    for (k in obj) {
+                        target[k] = typeof target[k] === 'object' && typeof obj[k] === 'object' ?
+                            kss.extend(target[k], obj[k]) :
+                            obj[k];
+                    }
                 }
             }
+            return target;
         }
-        return target;
     };
 
     window.vlib = window._ = vlib;

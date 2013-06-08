@@ -7,23 +7,24 @@
 <body>
     <div id="div1">
         <ul class="ul1" id="ul1">
-            <li id="1">1</li>
+            <li id="1" class="i">1</li>
             <li id="3">3</li>
-            <li id="4-1">4</li>
+            <li id="4-1" class="i">4</li>
             <li id="-14">5</li>
         </ul>
     </div>
     <script type="text/javascript" src="js/minlib.js"></script>
     <script type="text/javascript">
-        console.log(_('#3'));
-
         var $3_style = _('#3').style;
 
         var css = {
-            background: '#999',
             color: '#fff',
+            background: '#999',
             textAlign: 'center'
-        }
+        };
+
+        _.load('extend');
+
         _.extend($3_style, css);
     </script>
 </body>
