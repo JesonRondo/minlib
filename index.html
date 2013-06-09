@@ -15,17 +15,29 @@
     </div>
     <script type="text/javascript" src="js/minlib.js"></script>
     <script type="text/javascript">
-        var $3_style = _('#3').style;
+        _.load('extend', 'on', 'ajax');
 
+        var $3_style = _('#3')[0].style;
         var css = {
             color: '#fff',
             background: '#999',
             textAlign: 'center'
         };
-
-        _.load('extend');
-
         _.extend($3_style, css);
+
+        _('#4-1').on('click', function() {
+            console.log('click');
+        });
+
+        _.ajax({
+            url: '/data/a.json',
+            async: true,
+            type: 'GET',
+            dataType: 'json',
+            success: function(json) {
+                console.log(json);
+            }
+        });
     </script>
 </body>
 </html>
