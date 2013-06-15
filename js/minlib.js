@@ -9,7 +9,8 @@
         },
 
         init = function(selector) {
-            var match, elem, m;
+            var match, elem, m,
+                i, len;
 
             if (typeof selector === 'string') {
                 match = rQuickExpr.exec(selector);
@@ -23,10 +24,20 @@
                         return this;
                     } else if (m = match[2]) { // tag
                         elem = document.getElementsByTagName(m);
-                        return elem ? elem : this;
+                        len = elem.length;
+                        this.length = len;
+                        for (i = 0; i < len; i++) {
+                            this[i] = elem[i];
+                        }
+                        return this;
                     } else if (m = match[3]) { // class
                         elem = document.getElementsByClassName(m);
-                        return elem ? elem : this;
+                        len = elem.length;
+                        this.length = len;
+                        for (i = 0; i < len; i++) {
+                            this[i] = elem[i];
+                        }
+                        return this;
                     }
                 } else {
                     return this;
@@ -90,11 +101,11 @@
             for (i = 0, len = targets.length; i < len; i++) {
                 if (targets[i].addEventListener) {
                     targets[i].addEventListener(etype, function(event) {
-                        callback(event);
+                        callback.call(event.currentTarget, event);
                     });
                 } else {
                     targets[i].attachEvent('on' + etype, function() {
-                        callback(window.event);
+                        callback.call(window.event.currentTarget, window.event);
                     });
                 }
             }
