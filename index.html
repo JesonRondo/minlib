@@ -17,18 +17,26 @@
     <script type="text/javascript">
         _.load('extend', 'on', 'ajax');
 
-        var $3_style = _('#3')[0].style;
-        var css = {
-            color: '#fff',
-            background: '#999',
+        // select query
+        var idcss = {
+            background: '#f00'
+        };
+        var classcss = {
             textAlign: 'center'
         };
-        _.extend($3_style, css);
+        var $idstyle = _('#3')[0].style;
+        _.extend($idstyle, idcss);
 
+        _('.i').each(function(index, target) {
+            _.extend(target.style, classcss);
+        });
+
+        // event
         _('#4-1').on('click', function() {
             console.log(this.innerHTML);
         });
 
+        // ajax
         _.ajax({
             url: '/data/a.json',
             async: true,

@@ -49,7 +49,13 @@
 
     minlib.fn = {
         length: 0,
-        splice: splice
+        splice: splice,
+        each: function(callback) {
+            var len = this.length;
+            for (var i = 0; i < len; i++) {
+                callback(i, this[i]);
+            }
+        }
     };
 
     init.prototype = minlib.fn;
