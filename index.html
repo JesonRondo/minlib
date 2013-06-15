@@ -24,11 +24,18 @@
         var classcss = {
             textAlign: 'center'
         };
+        var tagcss = {
+            color: '#00f'
+        };
         var $idstyle = _('#3')[0].style;
         _.extend($idstyle, idcss);
 
         _('.i').each(function(index, target) {
             _.extend(target.style, classcss);
+        });
+
+        _('li').each(function(index, target) {
+            _.extend(target.style, tagcss);
         });
 
         // event
